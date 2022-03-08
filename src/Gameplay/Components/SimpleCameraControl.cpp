@@ -13,7 +13,7 @@
 SimpleCameraControl::SimpleCameraControl() :
 	IComponent(),
 	_mouseSensitivity({ 0.5f, 0.3f }),
-	_moveSpeeds(glm::vec3(1.0f)),
+	_moveSpeeds(glm::vec3(0.1f)),
 	_shiftMultipler(2.0f),
 	_currentRot(glm::vec2(0.0f)),
 	_isMousePressed(false),
@@ -29,7 +29,7 @@ void SimpleCameraControl::Update(float deltaTime)
 			_prevMousePos = InputEngine::GetMousePos();
 			LOG_INFO("doot");
 
-			
+
 			if (controlWithMouse)
 			{
 				glfwSetInputMode(Application::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -41,11 +41,11 @@ void SimpleCameraControl::Update(float deltaTime)
 				glfwSetInputMode(Application::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 				controlWithMouse = true;
 			}
-			
+
 		}
 
 		if (controlWithMouse) {
-		//if (InputEngine::IsMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)){
+			//if (InputEngine::IsMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)){
 			glm::dvec2 currentMousePos = InputEngine::GetMousePos();
 			glm::dvec2 delta = currentMousePos - _prevMousePos;
 
@@ -94,6 +94,12 @@ void SimpleCameraControl::Update(float deltaTime)
 
 			GetGameObject()->SetPostion(GetGameObject()->GetPosition() + worldMovement);
 		}
+
+		if (score <= 0)
+		{
+			GetGameObject()->SetPostion(glm::vec3(100, 100, 100));
+			std::cout << "\n\n\nYOU WIN!!!!!!";
+		}
 	}
 	_prevMousePos = InputEngine::GetMousePos();
 }
@@ -102,7 +108,7 @@ void SimpleCameraControl::RenderImGui()
 {
 	LABEL_LEFT(ImGui::DragFloat2, "Mouse Sensitivity", &_mouseSensitivity.x, 0.01f);
 	//LABEL_LEFT(ImGui::DragFloat3, "Move Speed       ", &_moveSpeed, 0.01f, 0.01f);
-	LABEL_LEFT(ImGui::DragFloat , "Shift Multiplier ", &_shiftMultipler, 0.01f, 1.0f);
+	LABEL_LEFT(ImGui::DragFloat, "Shift Multiplier ", &_shiftMultipler, 0.01f, 1.0f);
 }
 
 nlohmann::json SimpleCameraControl::ToJson() const {
@@ -113,10 +119,10 @@ nlohmann::json SimpleCameraControl::ToJson() const {
 	};
 }
 
-SimpleCameraControl::Sptr SimpleCameraControl::FromJson(const nlohmann::json& blob) {
+SimpleCameraControl::Sptr SimpleCameraControl::FromJson(const nlohmann::json & blob) {
 	SimpleCameraControl::Sptr result = std::make_shared<SimpleCameraControl>();
 	result->_mouseSensitivity = JsonGet(blob, "mouse_sensitivity", result->_mouseSensitivity);
-	result->_moveSpeeds       = JsonGet(blob, "move_speed", result->_moveSpeeds);
-	result->_shiftMultipler   = JsonGet(blob, "shift_mult", 2.0f);
+	result->_moveSpeeds = JsonGet(blob, "move_speed", result->_moveSpeeds);
+	result->_shiftMultipler = JsonGet(blob, "shift_mult", 2.0f);
 	return result;
 }

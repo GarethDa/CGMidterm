@@ -3,7 +3,7 @@
 #include "Utils/JsonGlmHelpers.h"
 #include "Utils\GlmBulletConversions.h"
 #include <GLFW/glfw3.h>
-#include "Gameplay/Components/PlayerMovement.h"
+#include "Gameplay/Components/SimpleCameraControl.h"
 
 void Pellet::Awake()
 {
@@ -15,7 +15,8 @@ void Pellet::Update(float deltaTime)
 {
 	if (glm::length(player->GetPosition() - GetGameObject()->GetPosition()) < 3.0f)
 	{
-		player->Get<PlayerMovement>()->score--;
+		player->Get<SimpleCameraControl>()->score--;
+		std::cout << "\n\nREMAINING PELLETS " << player->Get<SimpleCameraControl>()->score;
 		GetGameObject()->SetPostion(glm::vec3(-100.0f));
 	}
 }

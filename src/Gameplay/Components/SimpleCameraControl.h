@@ -21,7 +21,7 @@ public:
 	MAKE_TYPENAME(SimpleCameraControl);
 	virtual nlohmann::json ToJson() const override;
 	static SimpleCameraControl::Sptr FromJson(const nlohmann::json& blob);
-
+	int score = 5;
 protected:
 	float _shiftMultipler;
 	glm::vec2 _mouseSensitivity;

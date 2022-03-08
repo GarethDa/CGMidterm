@@ -137,10 +137,7 @@
     <ClInclude Include="src\Gameplay\Components\JumpBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\ParticleSystem.h" />
-<<<<<<< HEAD
-=======
     <ClInclude Include="src\Gameplay\Components\Pellet.h" />
->>>>>>> main
     <ClInclude Include="src\Gameplay\Components\PlayerMovement.h" />
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h" />
     <ClInclude Include="src\Gameplay\Components\RotatingBehaviour.h" />
@@ -227,10 +224,7 @@
     <ClCompile Include="src\Gameplay\Components\JumpBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\ParticleSystem.cpp" />
-<<<<<<< HEAD
-=======
     <ClCompile Include="src\Gameplay\Components\Pellet.cpp" />
->>>>>>> main
     <ClCompile Include="src\Gameplay\Components\PlayerMovement.cpp" />
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\RotatingBehaviour.cpp" />
