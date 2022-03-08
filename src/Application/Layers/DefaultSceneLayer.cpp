@@ -164,6 +164,9 @@ void DefaultSceneLayer::_CreateScene()
 		leafTex->SetMinFilter(MinFilter::Nearest);
 		leafTex->SetMagFilter(MagFilter::Nearest);
 
+		Texture2D::Sptr    wallTexture = ResourceManager::CreateAsset<Texture2D>("textures/wall-texture.png");
+
+		Texture2D::Sptr    floorTexture = ResourceManager::CreateAsset<Texture2D>("textures/black.png");
 
 		// Loading in a 1D LUT
 		Texture1D::Sptr toonLut = ResourceManager::CreateAsset<Texture1D>("luts/toon-1D.png");
@@ -193,6 +196,20 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Create our materials
 		// This will be our box material, with no environment reflections
+		Material::Sptr wallMaterial = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			wallMaterial->Name = "Wall";
+			wallMaterial->Set("u_Material.Diffuse", wallTexture);
+			wallMaterial->Set("u_Material.Shininess", 0.1f);
+		}
+
+		Material::Sptr floorMaterial = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			floorMaterial->Name = "Wall";
+			floorMaterial->Set("u_Material.Diffuse", floorTexture);
+			floorMaterial->Set("u_Material.Shininess", 0.1f);
+		}
+		
 		Material::Sptr boxMaterial = ResourceManager::CreateAsset<Material>(basicShader);
 		{
 			boxMaterial->Name = "Box";
@@ -300,6 +317,10 @@ void DefaultSceneLayer::_CreateScene()
 		sphere->AddParam(MeshBuilderParam::CreateIcoSphere(ZERO, ONE, 5));
 		sphere->GenerateMesh();
 
+		MeshResource::Sptr cube = ResourceManager::CreateAsset<MeshResource>();
+		cube->AddParam(MeshBuilderParam::CreateCube(ZERO, ONE));
+		cube->GenerateMesh();
+
 		// Set up the scene's camera
 		GameObject::Sptr camera = scene->MainCamera->GetGameObject()->SelfRef();
 		{
@@ -307,15 +328,15 @@ void DefaultSceneLayer::_CreateScene()
 			camera->LookAt(glm::vec3(0.0f));
 
 			camera->Add<SimpleCameraControl>();
-
-			/*
+			
+			
 			RenderComponent::Sptr renderer = camera->Add<RenderComponent>();
 			renderer->SetMesh(monkeyMesh);
-			renderer->SetMaterial(monkeyMaterial);
-			*/
+			//renderer->SetMaterial(monkeyMaterial);
+			
 
 			RigidBody::Sptr physics = camera->Add<RigidBody>(RigidBodyType::Dynamic);
-			physics->AddCollider(BoxCollider::Create(glm::vec3(0.4f, 1.2f, 0.4f)))->SetPosition(glm::vec3(0.0f, 0.95f, 0.0f));
+			physics->AddCollider(BoxCollider::Create());
 			physics->SetMass(1.f);
 
 
@@ -336,7 +357,7 @@ void DefaultSceneLayer::_CreateScene()
 			// Create and attach a RenderComponent to the object to draw our mesh
 			RenderComponent::Sptr renderer = plane->Add<RenderComponent>();
 			renderer->SetMesh(tiledMesh);
-			renderer->SetMaterial(boxMaterial);
+			renderer->SetMaterial(floorMaterial);
 
 			// Attach a plane collider that extends infinitely along the X/Y axis
 			RigidBody::Sptr physics = plane->Add<RigidBody>(/*static by default*/);
@@ -362,6 +383,103 @@ void DefaultSceneLayer::_CreateScene()
 			trigger->AddCollider(BoxCollider::Create(glm::vec3(1.0f)));
 
 			monkey1->Add<TriggerVolumeEnterBehaviour>();
+		}
+
+		GameObject::Sptr wall1 = scene->CreateGameObject("Wall 1");
+		{
+			// Set position in the scene
+			wall1->SetPostion(glm::vec3(6.0f, 5.0f, 5.0f));
+			wall1->SetScale(glm::vec3(40.0f, 1.0f, 10.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall1->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall1->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create());
+
+		}
+
+		GameObject::Sptr wall2 = scene->CreateGameObject("Wall 2");
+		{
+			// Set position in the scene
+			wall2->SetPostion(glm::vec3(1.5f, -5.0f, 5.0f));
+			wall2->SetScale(glm::vec3(30.0f, 1.0f, 10.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall2->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall2->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create());
+
+		}
+
+		GameObject::Sptr wall3 = scene->CreateGameObject("Wall 3");
+		{
+			// Set position in the scene
+			wall3->SetPostion(glm::vec3(26.5f, -10.0f, 5.0f));
+			wall3->SetScale(glm::vec3(30.0f, 1.0f, 10.0f));
+			wall3->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall3->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall3->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create());
+
+		}
+
+		GameObject::Sptr wall4 = scene->CreateGameObject("Wall 4");
+		{
+			// Set position in the scene
+			wall4->SetPostion(glm::vec3(-13.5f, 0.0f, 5.0f));
+			wall4->SetScale(glm::vec3(15.0f, 1.0f, 10.0f));
+			wall4->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall4->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall4->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create());
+		}
+
+		GameObject::Sptr wall5 = scene->CreateGameObject("Wall 5");
+		{
+			// Set position in the scene
+			wall5->SetPostion(glm::vec3(20.0f, -24.0f, 5.0f));
+			wall5->SetScale(glm::vec3(15.0f, 1.0f, 10.0f));
+			//wall5->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall5->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall5->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create());
+		}
+
+		GameObject::Sptr wall6 = scene->CreateGameObject("Wall 6");
+		{
+			// Set position in the scene
+			wall6->SetPostion(glm::vec3(16.0f, -15.0f, 5.0f));
+			wall6->SetScale(glm::vec3(21.0f, 1.0f, 10.0f));
+			wall6->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall6->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall6->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create());
 		}
 
 		//GameObject::Sptr demoBase = scene->CreateGameObject("Demo Parent");
