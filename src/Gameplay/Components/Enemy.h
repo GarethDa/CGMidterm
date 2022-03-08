@@ -4,7 +4,6 @@
 #include "Gameplay/Physics/RigidBody.h"
 #include "Gameplay/Scene.h"
 #include "Gameplay/Light.h"
-class EnemyState; //This forward declaration is here to avoid a circular include
 
 struct GLFWwindow;
 
@@ -27,7 +26,7 @@ public:
 	Light* enemyLight;
 
 	//Steering Movement
-	float maxVelocity = 4.0f;
+	float maxVelocity = 2.0f;
 	float maxRotationSpeed = 0.1f;
 	glm::vec3 desiredVelocity;
 	glm::vec3 targetRotation;

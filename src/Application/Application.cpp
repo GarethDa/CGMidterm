@@ -43,7 +43,7 @@
 #include "Gameplay/Components/SimpleCameraControl.h"
 #include "Gameplay/Components/ParticleSystem.h"
 #include "Gameplay/Components/Enemy.h"
-
+#include "Gameplay/Components/Pellet.h"
 
 // GUI
 #include "Gameplay/Components/GUI/RectTransform.h"
@@ -273,6 +273,8 @@ void Application::_RegisterClasses()
 	ComponentManager::RegisterType<GuiText>();
 	ComponentManager::RegisterType<ParticleSystem>();
 	ComponentManager::RegisterType<Enemy>();
+	ComponentManager::RegisterType<Pellet>();
+
 
 }
 

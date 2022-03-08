@@ -25,7 +25,6 @@ void Enemy::Awake()
 
 void Enemy::Update(float deltaTime)
 {
-
 	if (glm::length(player->GetPosition() - GetGameObject()->GetPosition()) < 10.0f)
 	{
 		target = player->GetPosition();
@@ -43,7 +42,6 @@ void Enemy::Update(float deltaTime)
 	}
 
 	Move(deltaTime);
-
 }
 
 void Enemy::RenderImGui() {

@@ -47,7 +47,7 @@
 #include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
 #include "Gameplay/Components/SimpleCameraControl.h"
 #include "Gameplay/Components/Enemy.h"
-
+#include "Gameplay/Components/Pellet.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -442,7 +442,7 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMesh(sphere);
 			renderer->SetMaterial(multiTextureMat);
 
-			demoBase->AddChild(multiTextureBall);
+			Pellet::Sptr pell = multiTextureBall->Add<Pellet>();
 		}
 
 		GameObject::Sptr normalMapBall = scene->CreateGameObject("Normal Mapped Object");
