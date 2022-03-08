@@ -10,14 +10,14 @@ MaterialSwapBehaviour::MaterialSwapBehaviour() :
 { }
 MaterialSwapBehaviour::~MaterialSwapBehaviour() = default;
 
-void MaterialSwapBehaviour::OnEnteredTrigger(const Gameplay::Physics::TriggerVolume::Sptr& trigger) {
+void MaterialSwapBehaviour::OnEnteredTrigger(const Gameplay::Physics::TriggerVolume::Sptr & trigger) {
 	if (_renderer && EnterMaterial) {
 		_renderer->SetMaterial(EnterMaterial);
 	}
 	LOG_INFO("Entered trigger: {}", trigger->GetGameObject()->Name);
 }
 
-void MaterialSwapBehaviour::OnLeavingTrigger(const Gameplay::Physics::TriggerVolume::Sptr& trigger) {
+void MaterialSwapBehaviour::OnLeavingTrigger(const Gameplay::Physics::TriggerVolume::Sptr & trigger) {
 	if (_renderer && ExitMaterial) {
 		_renderer->SetMaterial(ExitMaterial);
 	}
@@ -36,10 +36,10 @@ nlohmann::json MaterialSwapBehaviour::ToJson() const {
 		{ "exit_material", ExitMaterial != nullptr ? ExitMaterial->GetGUID().str() : "null" }
 	};
 }
-
-MaterialSwapBehaviour::Sptr MaterialSwapBehaviour::FromJson(const nlohmann::json& blob) {
+//Hi this is a test.
+MaterialSwapBehaviour::Sptr MaterialSwapBehaviour::FromJson(const nlohmann::json & blob) {
 	MaterialSwapBehaviour::Sptr result = std::make_shared<MaterialSwapBehaviour>();
 	result->EnterMaterial = ResourceManager::Get<Gameplay::Material>(Guid(blob["enter_material"]));
-	result->ExitMaterial  = ResourceManager::Get<Gameplay::Material>(Guid(blob["exit_material"]));
+	result->ExitMaterial = ResourceManager::Get<Gameplay::Material>(Guid(blob["exit_material"]));
 	return result;
 }
