@@ -3,6 +3,7 @@
 #include "Utils/JsonGlmHelpers.h"
 #include "Utils\GlmBulletConversions.h"
 #include <GLFW/glfw3.h>
+#include "Gameplay/Components/PlayerMovement.h"
 
 void Pellet::Awake()
 {
@@ -12,9 +13,9 @@ void Pellet::Awake()
 
 void Pellet::Update(float deltaTime)
 {
-	if (glm::length(player->GetPosition() - GetGameObject()->GetPosition()) < 1.0f)
+	if (glm::length(player->GetPosition() - GetGameObject()->GetPosition()) < 3.0f)
 	{
-		//Add one to player's score
+		player->Get<PlayerMovement>()->score--;
 		GetGameObject()->SetPostion(glm::vec3(-100.0f));
 	}
 }

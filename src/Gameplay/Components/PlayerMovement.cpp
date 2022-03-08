@@ -50,17 +50,22 @@ void PlayerMovement::Update(float deltaTime)
 			input *= _shiftMultipler;
 		}
 
-			input *= deltaTime;
+		input *= deltaTime;
 
-			glm::vec3 worldMovement = glm::vec4(input, 1.0f);
-			GetGameObject()->SetPostion(GetGameObject()->GetPosition() + worldMovement);
-		
+		glm::vec3 worldMovement = glm::vec4(input, 1.0f);
+		GetGameObject()->SetPostion(GetGameObject()->GetPosition() + worldMovement);
+
+		if (score <= 0)
+		{
+			GetGameObject()->SetPostion(glm::vec3(100, 100, 100));
+			std::cout << "\n\n\nYOU WIN!!!!!!";
+		}
 	}
 }
 
 void PlayerMovement::RenderImGui()
 {
-	
+
 }
 
 nlohmann::json PlayerMovement::ToJson() const {
@@ -72,6 +77,6 @@ nlohmann::json PlayerMovement::ToJson() const {
 }
 
 PlayerMovement::Sptr PlayerMovement::FromJson(const nlohmann::json & blob) {
-	
+
 	return PlayerMovement::Sptr();
 }

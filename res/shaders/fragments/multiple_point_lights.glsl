@@ -79,6 +79,7 @@ vec3 CalcPointLightContribution(vec3 worldPos, vec3 normal, vec3 viewDir, Light 
 	float attenuation = clamp(1.0 / (1.0 + light.ColorAttenuation.w * pow(dist, 2)), 0, 1);
 
 	return (diffuseOut + specularOut) * attenuation;
+
 }
 
 /*

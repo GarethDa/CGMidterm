@@ -21,6 +21,7 @@ public:
 	MAKE_TYPENAME(PlayerMovement);
 	virtual nlohmann::json ToJson() const override;
 	static PlayerMovement::Sptr FromJson(const nlohmann::json& blob);
+	int score = 1;
 
 protected:
 	float _shiftMultipler;

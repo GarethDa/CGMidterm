@@ -219,17 +219,17 @@ namespace Gameplay {
 		ComponentManager _components;
 
 		// Bullet physics stuff world
-		btDynamicsWorld*          _physicsWorld;
+		btDynamicsWorld* _physicsWorld;
 		// Our bullet physics configuration
-		btCollisionConfiguration* _collisionConfig; 
+		btCollisionConfiguration* _collisionConfig;
 		// Handles dispatching collisions between objects
-		btCollisionDispatcher*    _collisionDispatcher;
+		btCollisionDispatcher* _collisionDispatcher;
 		// Provides rough broadphase (AABB) checks to improve performance
-		btBroadphaseInterface*    _broadphaseInterface;
+		btBroadphaseInterface* _broadphaseInterface;
 		// Resolves contraints (ex: hinge constraints, angle axis, etc...)
-		btConstraintSolver*       _constraintSolver;
+		btConstraintSolver* _constraintSolver;
 		// this is what allows us to get our pairs from the trigger volumes
-		btGhostPairCallback*      _ghostCallback;
+		btGhostPairCallback* _ghostCallback;
 
 		BulletDebugDraw* _bulletDebugDraw;
 
@@ -275,8 +275,9 @@ namespace Gameplay {
 			// Since these are tightly packed, will match the vec4 in the UBO
 			glm::vec3 AmbientCol;
 			float     NumLights;
-
 			Light     Lights[MAX_LIGHTS];
+			bool showLighting;
+
 			// NOTE: our shaders expect a mat3, but due to the STD140 layout, each column of the
 			// vec3 needs to be padded to the size of a vec4, hence the use of a mat4 here
 			glm::mat4 EnvironmentRotation;
