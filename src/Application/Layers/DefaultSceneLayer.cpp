@@ -156,6 +156,7 @@ void DefaultSceneLayer::_CreateScene()
 		// Load in the meshes
 		MeshResource::Sptr monkeyMesh = ResourceManager::CreateAsset<MeshResource>("Monkey.obj");
 		MeshResource::Sptr enemyMesh = ResourceManager::CreateAsset<MeshResource>("enemy.obj");
+		MeshResource::Sptr wallMesh = ResourceManager::CreateAsset<MeshResource>("wall.obj");
 
 		// Load in some textures
 		Texture2D::Sptr    boxTexture = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
@@ -352,12 +353,12 @@ void DefaultSceneLayer::_CreateScene()
 			RenderComponent::Sptr renderer = camera->Add<RenderComponent>();
 			renderer->SetMesh(monkeyMesh);
 			//renderer->SetMaterial(monkeyMaterial);
-
-
+			
+			/*
 			RigidBody::Sptr physics = camera->Add<RigidBody>(RigidBodyType::Dynamic);
-			physics->AddCollider(SphereCollider::Create());
-			physics->SetMass(1.f);
-
+			physics->AddCollider(SphereCollider::Create(0.3f));
+			physics->SetMass(0.0000001f);
+			*/
 
 			// This is now handled by scene itself!
 			//Camera::Sptr cam = camera->Add<Camera>();
@@ -409,8 +410,8 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr wall1 = scene->CreateGameObject("Wall 1");
 		{
 			// Set position in the scene
-			wall1->SetPostion(glm::vec3(6.0f, 5.0f, 5.0f));
-			wall1->SetScale(glm::vec3(40.0f, 1.0f, 10.0f));
+			wall1->SetPostion(glm::vec3(-7.0f, 5.0f, 5.0f));
+			wall1->SetScale(glm::vec3(10.0f, 1.0f, 10.0f));
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = wall1->Add<RenderComponent>();
@@ -419,14 +420,66 @@ void DefaultSceneLayer::_CreateScene()
 
 			RigidBody::Sptr physics = wall1->Add<RigidBody>();
 			physics->AddCollider(BoxCollider::Create({ 40.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
+
+		}
+
+		GameObject::Sptr wall7 = scene->CreateGameObject("Wall 7");
+		{
+			// Set position in the scene
+			wall7->SetPostion(glm::vec3(3.0f, 5.0f, 5.0f));
+			wall7->SetScale(glm::vec3(10.0f, 1.0f, 10.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall7->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall7->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create({ 40.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
+
+		}
+
+		GameObject::Sptr wall8 = scene->CreateGameObject("Wall 8");
+		{
+			// Set position in the scene
+			wall8->SetPostion(glm::vec3(13.0f, 5.0f, 5.0f));
+			wall8->SetScale(glm::vec3(10.0f, 1.0f, 10.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall8->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall8->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create({ 40.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
+
+		}
+
+		GameObject::Sptr wall9 = scene->CreateGameObject("Wall 9");
+		{
+			// Set position in the scene
+			wall9->SetPostion(glm::vec3(23.0f, 5.0f, 5.0f));
+			wall9->SetScale(glm::vec3(10.0f, 1.0f, 10.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall9->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall9->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create({ 40.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
 
 		}
 
 		GameObject::Sptr wall2 = scene->CreateGameObject("Wall 2");
 		{
 			// Set position in the scene
-			wall2->SetPostion(glm::vec3(1.5f, -5.0f, 5.0f));
-			wall2->SetScale(glm::vec3(30.0f, 1.0f, 10.0f));
+			wall2->SetPostion(glm::vec3(-8.0f, -5.0f, 5.0f));
+			wall2->SetScale(glm::vec3(10.0f, 1.0f, 10.0f));
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = wall2->Add<RenderComponent>();
@@ -435,7 +488,39 @@ void DefaultSceneLayer::_CreateScene()
 
 			RigidBody::Sptr physics = wall2->Add<RigidBody>();
 			physics->AddCollider(BoxCollider::Create({ 30.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
+		}
 
+		GameObject::Sptr wall10 = scene->CreateGameObject("Wall 10");
+		{
+			// Set position in the scene
+			wall10->SetPostion(glm::vec3(2.0f, -5.0f, 5.0f));
+			wall10->SetScale(glm::vec3(10.0f, 1.0f, 10.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall10->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall10->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create({ 30.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
+		}
+
+		GameObject::Sptr wall11 = scene->CreateGameObject("Wall 10");
+		{
+			// Set position in the scene
+			wall11->SetPostion(glm::vec3(12.0f, -5.0f, 5.0f));
+			wall11->SetScale(glm::vec3(10.0f, 1.0f, 10.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = wall11->Add<RenderComponent>();
+			renderer->SetMesh(cube);
+			renderer->SetMaterial(wallMaterial);
+
+			RigidBody::Sptr physics = wall11->Add<RigidBody>();
+			physics->AddCollider(BoxCollider::Create({ 30.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
 		}
 
 		GameObject::Sptr wall3 = scene->CreateGameObject("Wall 3");
@@ -452,7 +537,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			RigidBody::Sptr physics = wall3->Add<RigidBody>();
 			physics->AddCollider(BoxCollider::Create({ 30.0f, 1.0f, 10.0f }));
-
+			physics->SetMass(1000000.0f);
 		}
 
 		GameObject::Sptr wall4 = scene->CreateGameObject("Wall 4");
@@ -469,6 +554,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			RigidBody::Sptr physics = wall4->Add<RigidBody>();
 			physics->AddCollider(BoxCollider::Create({ 15.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
 		}
 
 		GameObject::Sptr wall5 = scene->CreateGameObject("Wall 5");
@@ -485,6 +571,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			RigidBody::Sptr physics = wall5->Add<RigidBody>();
 			physics->AddCollider(BoxCollider::Create({ 15.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
 		}
 
 		GameObject::Sptr wall6 = scene->CreateGameObject("Wall 6");
@@ -501,6 +588,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			RigidBody::Sptr physics = wall6->Add<RigidBody>();
 			physics->AddCollider(BoxCollider::Create({ 21.0f, 1.0f, 10.0f }));
+			physics->SetMass(1000000.0f);
 		}
 
 		//GameObject::Sptr demoBase = scene->CreateGameObject("Demo Parent");
