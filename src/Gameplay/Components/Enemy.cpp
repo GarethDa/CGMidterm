@@ -20,15 +20,30 @@ void Enemy::Awake()
 	GetGameObject()->SetPostion(startPos);
 
 	player = scene->MainCamera->GetGameObject();
+	enemyLight = &scene->Lights[0];
 }
 
 void Enemy::Update(float deltaTime)
 {
+
 	if (glm::length(player->GetPosition() - GetGameObject()->GetPosition()) < 10.0f)
 	{
 		target = player->GetPosition();
-		Move(deltaTime);
+
+		if (glm::length(player->GetPosition() - GetGameObject()->GetPosition()) < 2.0f)
+			player->SetPostion(playerStartingPos);
+
+		glm::vec3 lerpedCol = glm::mix(enemyLight->Color, glm::vec3(1, 0, 0), deltaTime * 2.0f);
+		enemyLight->Color = lerpedCol;
 	}
+	else
+	{
+		glm::vec3 lerpedCol = glm::mix(enemyLight->Color, glm::vec3(1, 1, 1), deltaTime * 2.0f);
+		enemyLight->Color = lerpedCol;
+	}
+
+	Move(deltaTime);
+
 }
 
 void Enemy::RenderImGui() {

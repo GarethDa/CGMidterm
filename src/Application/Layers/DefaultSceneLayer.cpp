@@ -461,7 +461,6 @@ void DefaultSceneLayer::_CreateScene()
 			rb->AddCollider(SphereCollider::Create(1.05f));
 
 			Enemy::Sptr enemy = normalMapBall->Add<Enemy>();
-
 		}
 
 		// Create a trigger volume for testing how we can detect collisions with objects!

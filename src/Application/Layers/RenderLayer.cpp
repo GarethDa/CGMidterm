@@ -31,7 +31,7 @@ RenderLayer::RenderLayer() :
 
 RenderLayer::~RenderLayer() = default;
 
-void RenderLayer::OnRender(const Framebuffer::Sptr& prevLayer)
+void RenderLayer::OnRender(const Framebuffer::Sptr & prevLayer)
 {
 	using namespace Gameplay;
 
@@ -45,6 +45,8 @@ void RenderLayer::OnRender(const Framebuffer::Sptr& prevLayer)
 	// Clear the color and depth buffers
 	glClearColor(_clearColor.x, _clearColor.y, _clearColor.z, _clearColor.w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	app.CurrentScene()->SetupShaderAndLights();
 
 	// Grab shorthands to the camera and shader from the scene
 	Camera::Sptr camera = app.CurrentScene()->MainCamera;
@@ -107,7 +109,8 @@ void RenderLayer::OnRender(const Framebuffer::Sptr& prevLayer)
 		if (renderable->GetMaterial() == nullptr) {
 			if (defaultMat != nullptr) {
 				renderable->SetMaterial(defaultMat);
-			} else {
+			}
+			else {
 				return;
 			}
 		}
@@ -134,7 +137,7 @@ void RenderLayer::OnRender(const Framebuffer::Sptr& prevLayer)
 
 		// Draw the object
 		renderable->GetMesh()->Draw();
-	});
+		});
 
 	// Use our cubemap to draw our skybox
 	app.CurrentScene()->DrawSkybox();
@@ -145,7 +148,7 @@ void RenderLayer::OnRender(const Framebuffer::Sptr& prevLayer)
 	VertexArrayObject::Unbind();
 }
 
-void RenderLayer::OnWindowResize(const glm::ivec2& oldSize, const glm::ivec2& newSize)
+void RenderLayer::OnWindowResize(const glm::ivec2 & oldSize, const glm::ivec2 & newSize)
 {
 	if (newSize.x * newSize.y == 0) return;
 
@@ -157,7 +160,7 @@ void RenderLayer::OnWindowResize(const glm::ivec2& oldSize, const glm::ivec2& ne
 	app.CurrentScene()->MainCamera->ResizeWindow(newSize.x, newSize.y);
 }
 
-void RenderLayer::OnAppLoad(const nlohmann::json& config)
+void RenderLayer::OnAppLoad(const nlohmann::json & config)
 {
 	Application& app = Application::Get();
 
@@ -174,8 +177,8 @@ void RenderLayer::OnAppLoad(const nlohmann::json& config)
 	fboDescriptor.SampleCount = 1;
 
 	// Add a depth and color attachment (same as default)
-	fboDescriptor.RenderTargets[RenderTargetAttachment::DepthStencil] ={ true, RenderTargetType::DepthStencil };
-	fboDescriptor.RenderTargets[RenderTargetAttachment::Color0] ={ true, RenderTargetType::ColorRgb8 };
+	fboDescriptor.RenderTargets[RenderTargetAttachment::DepthStencil] = { true, RenderTargetType::DepthStencil };
+	fboDescriptor.RenderTargets[RenderTargetAttachment::Color0] = { true, RenderTargetType::ColorRgb8 };
 
 	// Create the primary FBO
 	_primaryFBO = std::make_shared<Framebuffer>(fboDescriptor);

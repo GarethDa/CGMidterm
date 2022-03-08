@@ -3,7 +3,7 @@
 #include "Gameplay/GameObject.h"
 #include "Gameplay/Physics/RigidBody.h"
 #include "Gameplay/Scene.h"
-
+#include "Gameplay/Light.h"
 class EnemyState; //This forward declaration is here to avoid a circular include
 
 struct GLFWwindow;
@@ -24,6 +24,7 @@ public:
 
 	glm::vec3 startPos = glm::vec3(0);
 	glm::vec3 target;
+	Light* enemyLight;
 
 	//Steering Movement
 	float maxVelocity = 4.0f;
@@ -45,6 +46,8 @@ public:
 	virtual void RenderImGui() override;
 	virtual nlohmann::json ToJson() const override;
 	static Enemy::Sptr FromJson(const nlohmann::json& data);
+
+	glm::vec3 playerStartingPos = glm::vec3(2.0f, 2.0f, 2.0f);
 
 	MAKE_TYPENAME(Enemy);
 };
