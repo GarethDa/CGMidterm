@@ -155,6 +155,7 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Load in the meshes
 		MeshResource::Sptr monkeyMesh = ResourceManager::CreateAsset<MeshResource>("Monkey.obj");
+		MeshResource::Sptr enemyMesh = ResourceManager::CreateAsset<MeshResource>("cylinder.obj");
 
 		// Load in some textures
 		Texture2D::Sptr    boxTexture = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
@@ -167,6 +168,10 @@ void DefaultSceneLayer::_CreateScene()
 		Texture2D::Sptr    wallTexture = ResourceManager::CreateAsset<Texture2D>("textures/wall-texture.png");
 
 		Texture2D::Sptr    floorTexture = ResourceManager::CreateAsset<Texture2D>("textures/black.png");
+
+		Texture2D::Sptr    enemyTexture = ResourceManager::CreateAsset<Texture2D>("textures/red_ghost.png");
+
+		Texture2D::Sptr    pelletTexture = ResourceManager::CreateAsset<Texture2D>("textures/pelletTexture.png");
 
 		// Loading in a 1D LUT
 		Texture1D::Sptr toonLut = ResourceManager::CreateAsset<Texture1D>("luts/toon-1D.png");
@@ -208,6 +213,20 @@ void DefaultSceneLayer::_CreateScene()
 			floorMaterial->Name = "Wall";
 			floorMaterial->Set("u_Material.Diffuse", floorTexture);
 			floorMaterial->Set("u_Material.Shininess", 0.1f);
+		}
+
+		Material::Sptr enemyMaterial = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			enemyMaterial->Name = "Wall";
+			enemyMaterial->Set("u_Material.Diffuse", enemyTexture);
+			enemyMaterial->Set("u_Material.Shininess", 0.1f);
+		}
+
+		Material::Sptr pelletMaterial = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			pelletMaterial->Name = "Wall";
+			pelletMaterial->Set("u_Material.Diffuse", pelletTexture);
+			pelletMaterial->Set("u_Material.Shininess", 0.1f);
 		}
 		
 		Material::Sptr boxMaterial = ResourceManager::CreateAsset<Material>(basicShader);
@@ -571,7 +590,7 @@ void DefaultSceneLayer::_CreateScene()
 			// Add a render component 
 			RenderComponent::Sptr renderer = multiTextureBall->Add<RenderComponent>();
 			renderer->SetMesh(sphere);
-			renderer->SetMaterial(multiTextureMat);
+			renderer->SetMaterial(pelletMaterial);
 
 			Pellet::Sptr pell = multiTextureBall->Add<Pellet>();
 		}
@@ -583,8 +602,8 @@ void DefaultSceneLayer::_CreateScene()
 
 			// Add a render component 
 			RenderComponent::Sptr renderer = normalMapBall->Add<RenderComponent>();
-			renderer->SetMesh(sphere);
-			renderer->SetMaterial(normalmapMat);
+			renderer->SetMesh(enemyMesh);
+			renderer->SetMaterial(enemyMaterial);
 
 			// Add a render component 
 			RigidBody::Sptr rb = normalMapBall->Add<RigidBody>();
