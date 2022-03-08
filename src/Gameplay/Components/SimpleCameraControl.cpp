@@ -16,7 +16,8 @@ SimpleCameraControl::SimpleCameraControl() :
 	_moveSpeeds(glm::vec3(1.0f)),
 	_shiftMultipler(2.0f),
 	_currentRot(glm::vec2(0.0f)),
-	_isMousePressed(false)
+	_isMousePressed(false),
+	_moveSpeed(0.5f)
 { }
 
 SimpleCameraControl::~SimpleCameraControl() = default;
@@ -27,14 +28,26 @@ void SimpleCameraControl::Update(float deltaTime)
 		if (InputEngine::GetMouseState(GLFW_MOUSE_BUTTON_LEFT) == ButtonState::Pressed) {
 			_prevMousePos = InputEngine::GetMousePos();
 			LOG_INFO("doot");
+
+			if (controlWithMouse)
+			{
+				glfwSetInputMode(Application::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+				controlWithMouse = false;
+			}
+
+			else
+			{
+				glfwSetInputMode(Application::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+				controlWithMouse = true;
+			}
 		}
 
-		if (InputEngine::IsMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
+		if (controlWithMouse) {
 			glm::dvec2 currentMousePos = InputEngine::GetMousePos();
 			glm::dvec2 delta = currentMousePos - _prevMousePos;
 
-			_currentRot.x += static_cast<float>(delta.x) * _mouseSensitivity.x;
-			_currentRot.y += static_cast<float>(delta.y) * _mouseSensitivity.y;
+			_currentRot.x -= static_cast<float>(delta.x) * _mouseSensitivity.x;
+			_currentRot.y -= static_cast<float>(delta.y) * _mouseSensitivity.y;
 			glm::quat rotX = glm::angleAxis(glm::radians(_currentRot.x), glm::vec3(0, 0, 1));
 			glm::quat rotY = glm::angleAxis(glm::radians(_currentRot.y), glm::vec3(1, 0, 0));
 			glm::quat currentRot = rotX * rotY;
@@ -68,7 +81,14 @@ void SimpleCameraControl::Update(float deltaTime)
 
 			input *= deltaTime;
 
-			glm::vec3 worldMovement = currentRot * glm::vec4(input, 1.0f);
+			//glm::vec3 worldMovement = currentRot * glm::vec4(input, 1.0f);
+			glm::vec3 worldMovement = glm::vec3((currentRot * glm::vec4(input, 1.0f)).x, (currentRot * glm::vec4(input, 1.0f)).y, 0.0f);
+
+			if (worldMovement != glm::vec3(0.0f))
+			{
+				worldMovement = _moveSpeed * glm::normalize(worldMovement);
+			}
+
 			GetGameObject()->SetPostion(GetGameObject()->GetPosition() + worldMovement);
 		}
 	}

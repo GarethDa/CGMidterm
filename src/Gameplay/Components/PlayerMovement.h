@@ -7,20 +7,20 @@ struct GLFWwindow;
 /// A simple behaviour that allows movement of a gameobject with WASD, mouse,
 /// and ctrl + space
 /// </summary>
-class SimpleCameraControl : public Gameplay::IComponent {
+class PlayerMovement : public Gameplay::IComponent {
 public:
-	typedef std::shared_ptr<SimpleCameraControl> Sptr;
+	typedef std::shared_ptr<PlayerMovement> Sptr;
 
-	SimpleCameraControl();
-	virtual ~SimpleCameraControl();
+	PlayerMovement();
+	virtual ~PlayerMovement();
 
 	virtual void Update(float deltaTime) override;
 
 public:
 	virtual void RenderImGui() override;
-	MAKE_TYPENAME(SimpleCameraControl);
+	MAKE_TYPENAME(PlayerMovement);
 	virtual nlohmann::json ToJson() const override;
-	static SimpleCameraControl::Sptr FromJson(const nlohmann::json& blob);
+	static PlayerMovement::Sptr FromJson(const nlohmann::json& blob);
 
 protected:
 	float _shiftMultipler;
@@ -32,6 +32,4 @@ protected:
 	bool _isMousePressed = false;
 
 	bool controlWithMouse = false;
-
-	float _moveSpeed;
 };

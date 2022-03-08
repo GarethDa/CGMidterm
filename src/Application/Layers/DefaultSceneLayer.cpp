@@ -303,10 +303,21 @@ void DefaultSceneLayer::_CreateScene()
 		// Set up the scene's camera
 		GameObject::Sptr camera = scene->MainCamera->GetGameObject()->SelfRef();
 		{
-			camera->SetPostion({ -9, -6, 15 });
+			camera->SetPostion({ -9, 2, 2 });
 			camera->LookAt(glm::vec3(0.0f));
 
 			camera->Add<SimpleCameraControl>();
+			
+			/*
+			RenderComponent::Sptr renderer = camera->Add<RenderComponent>();
+			renderer->SetMesh(monkeyMesh);
+			renderer->SetMaterial(monkeyMaterial);
+			*/
+
+			RigidBody::Sptr physics = camera->Add<RigidBody>(RigidBodyType::Dynamic);
+			physics->AddCollider(BoxCollider::Create(glm::vec3(0.4f, 1.2f, 0.4f)))->SetPosition(glm::vec3(0.0f, 0.95f, 0.0f));
+			physics->SetMass(1.f);
+			
 
 			// This is now handled by scene itself!
 			//Camera::Sptr cam = camera->Add<Camera>();
@@ -353,8 +364,9 @@ void DefaultSceneLayer::_CreateScene()
 			monkey1->Add<TriggerVolumeEnterBehaviour>();
 		}
 
-		GameObject::Sptr demoBase = scene->CreateGameObject("Demo Parent");
+		//GameObject::Sptr demoBase = scene->CreateGameObject("Demo Parent");
 
+		/*
 		// Box to showcase the specular material
 		GameObject::Sptr specBox = scene->CreateGameObject("Specular Object");
 		{
@@ -404,7 +416,8 @@ void DefaultSceneLayer::_CreateScene()
 
 			demoBase->AddChild(foliageBox);
 		}
-
+		
+		
 		// Box to showcase the specular material
 		GameObject::Sptr toonBall = scene->CreateGameObject("Toon Object");
 		{
@@ -462,6 +475,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			Enemy::Sptr enemy = normalMapBall->Add<Enemy>();
 		}
+		*/
 
 		// Create a trigger volume for testing how we can detect collisions with objects!
 		GameObject::Sptr trigger = scene->CreateGameObject("Trigger");
