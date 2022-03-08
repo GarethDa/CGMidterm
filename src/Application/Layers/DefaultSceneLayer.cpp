@@ -46,6 +46,8 @@
 #include "Gameplay/Components/MaterialSwapBehaviour.h"
 #include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
 #include "Gameplay/Components/SimpleCameraControl.h"
+#include "Gameplay/Components/Enemy.h"
+
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -77,7 +79,7 @@ DefaultSceneLayer::DefaultSceneLayer() :
 
 DefaultSceneLayer::~DefaultSceneLayer() = default;
 
-void DefaultSceneLayer::OnAppLoad(const nlohmann::json& config) {
+void DefaultSceneLayer::OnAppLoad(const nlohmann::json & config) {
 	_CreateScene();
 }
 
@@ -92,7 +94,8 @@ void DefaultSceneLayer::_CreateScene()
 	// For now we can use a toggle to generate our scene vs load from file
 	if (loadScene && std::filesystem::exists("scene.json")) {
 		app.LoadScene("scene.json");
-	} else {
+	}
+	else {
 		// This time we'll have 2 different shaders, and share data between both of them using the UBO
 		// This shader will handle reflective materials 
 		ShaderProgram::Sptr reflectiveShader = ResourceManager::CreateAsset<ShaderProgram>(std::unordered_map<ShaderPartType, std::string>{
@@ -154,16 +157,16 @@ void DefaultSceneLayer::_CreateScene()
 		MeshResource::Sptr monkeyMesh = ResourceManager::CreateAsset<MeshResource>("Monkey.obj");
 
 		// Load in some textures
-		Texture2D::Sptr    boxTexture   = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
-		Texture2D::Sptr    boxSpec      = ResourceManager::CreateAsset<Texture2D>("textures/box-specular.png");
-		Texture2D::Sptr    monkeyTex    = ResourceManager::CreateAsset<Texture2D>("textures/monkey-uvMap.png");
-		Texture2D::Sptr    leafTex      = ResourceManager::CreateAsset<Texture2D>("textures/leaves.png");
+		Texture2D::Sptr    boxTexture = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
+		Texture2D::Sptr    boxSpec = ResourceManager::CreateAsset<Texture2D>("textures/box-specular.png");
+		Texture2D::Sptr    monkeyTex = ResourceManager::CreateAsset<Texture2D>("textures/monkey-uvMap.png");
+		Texture2D::Sptr    leafTex = ResourceManager::CreateAsset<Texture2D>("textures/leaves.png");
 		leafTex->SetMinFilter(MinFilter::Nearest);
 		leafTex->SetMagFilter(MagFilter::Nearest);
 
 
 		// Loading in a 1D LUT
-		Texture1D::Sptr toonLut = ResourceManager::CreateAsset<Texture1D>("luts/toon-1D.png"); 
+		Texture1D::Sptr toonLut = ResourceManager::CreateAsset<Texture1D>("luts/toon-1D.png");
 		toonLut->SetWrap(WrapMode::ClampToEdge);
 
 		// Here we'll load in the cubemap, as well as a special shader to handle drawing the skybox
@@ -174,16 +177,16 @@ void DefaultSceneLayer::_CreateScene()
 		});
 
 		// Create an empty scene
-		Scene::Sptr scene = std::make_shared<Scene>(); 
+		Scene::Sptr scene = std::make_shared<Scene>();
 
 		// Setting up our enviroment map
-		scene->SetSkyboxTexture(testCubemap); 
+		scene->SetSkyboxTexture(testCubemap);
 		scene->SetSkyboxShader(skyboxShader);
 		// Since the skybox I used was for Y-up, we need to rotate it 90 deg around the X-axis to convert it to z-up 
 		scene->SetSkyboxRotation(glm::rotate(MAT4_IDENTITY, glm::half_pi<float>(), glm::vec3(1.0f, 0.0f, 0.0f)));
 
 		// Loading in a color lookup table
-		Texture3D::Sptr lut = ResourceManager::CreateAsset<Texture3D>("luts/cool.CUBE");  
+		Texture3D::Sptr lut = ResourceManager::CreateAsset<Texture3D>("luts/cool.CUBE");
 
 		// Configure the color correction LUT
 		scene->SetColorLUT(lut);
@@ -241,8 +244,8 @@ void DefaultSceneLayer::_CreateScene()
 		Material::Sptr displacementTest = ResourceManager::CreateAsset<Material>(displacementShader);
 		{
 			Texture2D::Sptr displacementMap = ResourceManager::CreateAsset<Texture2D>("textures/displacement_map.png");
-			Texture2D::Sptr normalMap       = ResourceManager::CreateAsset<Texture2D>("textures/normal_map.png");
-			Texture2D::Sptr diffuseMap      = ResourceManager::CreateAsset<Texture2D>("textures/bricks_diffuse.png");
+			Texture2D::Sptr normalMap = ResourceManager::CreateAsset<Texture2D>("textures/normal_map.png");
+			Texture2D::Sptr diffuseMap = ResourceManager::CreateAsset<Texture2D>("textures/bricks_diffuse.png");
 
 			displacementTest->Name = "Displacement Map";
 			displacementTest->Set("u_Material.Diffuse", diffuseMap);
@@ -254,8 +257,8 @@ void DefaultSceneLayer::_CreateScene()
 
 		Material::Sptr normalmapMat = ResourceManager::CreateAsset<Material>(tangentSpaceMapping);
 		{
-			Texture2D::Sptr normalMap       = ResourceManager::CreateAsset<Texture2D>("textures/normal_map.png");
-			Texture2D::Sptr diffuseMap      = ResourceManager::CreateAsset<Texture2D>("textures/bricks_diffuse.png");
+			Texture2D::Sptr normalMap = ResourceManager::CreateAsset<Texture2D>("textures/normal_map.png");
+			Texture2D::Sptr diffuseMap = ResourceManager::CreateAsset<Texture2D>("textures/bricks_diffuse.png");
 
 			normalmapMat->Name = "Tangent Space Normal Map";
 			normalmapMat->Set("u_Material.Diffuse", diffuseMap);
@@ -266,7 +269,7 @@ void DefaultSceneLayer::_CreateScene()
 
 		Material::Sptr multiTextureMat = ResourceManager::CreateAsset<Material>(multiTextureShader);
 		{
-			Texture2D::Sptr sand  = ResourceManager::CreateAsset<Texture2D>("textures/terrain/sand.png");
+			Texture2D::Sptr sand = ResourceManager::CreateAsset<Texture2D>("textures/terrain/sand.png");
 			Texture2D::Sptr grass = ResourceManager::CreateAsset<Texture2D>("textures/terrain/grass.png");
 
 			multiTextureMat->Name = "Multitexturing";
@@ -452,7 +455,13 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMesh(sphere);
 			renderer->SetMaterial(normalmapMat);
 
-			demoBase->AddChild(normalMapBall);
+			// Add a render component 
+			RigidBody::Sptr rb = normalMapBall->Add<RigidBody>();
+			rb->SetType(RigidBodyType::Dynamic);
+			rb->AddCollider(SphereCollider::Create(1.05f));
+
+			Enemy::Sptr enemy = normalMapBall->Add<Enemy>();
+
 		}
 
 		// Create a trigger volume for testing how we can detect collisions with objects!
@@ -504,8 +513,8 @@ void DefaultSceneLayer::_CreateScene()
 
 		GameObject::Sptr particles = scene->CreateGameObject("Particles");
 		{
-			ParticleSystem::Sptr particleManager = particles->Add<ParticleSystem>();  
-			particleManager->AddEmitter(glm::vec3(0.0f), glm::vec3(0.0f, -1.0f, 10.0f), 10.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)); 
+			ParticleSystem::Sptr particleManager = particles->Add<ParticleSystem>();
+			particleManager->AddEmitter(glm::vec3(0.0f), glm::vec3(0.0f, -1.0f, 10.0f), 10.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 		}
 
 		GuiBatcher::SetDefaultTexture(ResourceManager::CreateAsset<Texture2D>("textures/ui-sprite.png"));
