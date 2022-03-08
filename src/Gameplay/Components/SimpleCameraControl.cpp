@@ -17,7 +17,8 @@ SimpleCameraControl::SimpleCameraControl() :
 	_shiftMultipler(2.0f),
 	_currentRot(glm::vec2(0.0f)),
 	_isMousePressed(false),
-	_moveSpeed(0.5f)
+	_moveSpeed(0.5f),
+	_firstFrame(true)
 { }
 
 SimpleCameraControl::~SimpleCameraControl() = default;
@@ -25,6 +26,7 @@ SimpleCameraControl::~SimpleCameraControl() = default;
 void SimpleCameraControl::Update(float deltaTime)
 {
 	if (Application::Get().IsFocused) {
+		
 		if (InputEngine::GetMouseState(GLFW_MOUSE_BUTTON_LEFT) == ButtonState::Pressed) {
 			_prevMousePos = InputEngine::GetMousePos();
 			LOG_INFO("doot");
@@ -43,6 +45,15 @@ void SimpleCameraControl::Update(float deltaTime)
 			}
 
 		}
+
+		/*
+		if (_firstFrame)
+		{
+			_prevMousePos = InputEngine::GetMousePos();
+			glfwSetInputMode(Application::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			LOG_INFO("doot");
+		}
+		*/
 
 		if (controlWithMouse) {
 			//if (InputEngine::IsMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)){

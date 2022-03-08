@@ -33,5 +33,7 @@ protected:
 
 	bool controlWithMouse = false;
 
+	bool _firstFrame;
+
 	float _moveSpeed;
 };

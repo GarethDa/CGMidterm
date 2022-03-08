@@ -155,7 +155,7 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Load in the meshes
 		MeshResource::Sptr monkeyMesh = ResourceManager::CreateAsset<MeshResource>("Monkey.obj");
-		MeshResource::Sptr enemyMesh = ResourceManager::CreateAsset<MeshResource>("cylinder.obj");
+		MeshResource::Sptr enemyMesh = ResourceManager::CreateAsset<MeshResource>("enemy.obj");
 
 		// Load in some textures
 		Texture2D::Sptr    boxTexture = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
@@ -317,9 +317,9 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Create some lights for our scene
 		scene->Lights.resize(3);
-		scene->Lights[0].Position = glm::vec3(0.0f, 1.0f, 3.0f);
+		scene->Lights[0].Position = glm::vec3(0.0f, 1.0f, 20.0f);
 		scene->Lights[0].Color = glm::vec3(1.0f, 1.0f, 1.0f);
-		scene->Lights[0].Range = 100.0f;
+		scene->Lights[0].Range = 500.0f;
 
 		scene->Lights[1].Position = glm::vec3(1.0f, 0.0f, 3.0f);
 		scene->Lights[1].Color = glm::vec3(0.2f, 0.8f, 0.1f);
@@ -353,11 +353,11 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMesh(monkeyMesh);
 			//renderer->SetMaterial(monkeyMaterial);
 			
-
+			
 			RigidBody::Sptr physics = camera->Add<RigidBody>(RigidBodyType::Dynamic);
-			physics->AddCollider(BoxCollider::Create());
+			physics->AddCollider(SphereCollider::Create());
 			physics->SetMass(1.f);
-
+			
 
 			// This is now handled by scene itself!
 			//Camera::Sptr cam = camera->Add<Camera>();
@@ -383,6 +383,7 @@ void DefaultSceneLayer::_CreateScene()
 			physics->AddCollider(BoxCollider::Create(glm::vec3(50.0f, 50.0f, 1.0f)))->SetPosition({ 0,0,-1 });
 		}
 
+		/*
 		GameObject::Sptr monkey1 = scene->CreateGameObject("Monkey 1");
 		{
 			// Set position in the scene
@@ -403,6 +404,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			monkey1->Add<TriggerVolumeEnterBehaviour>();
 		}
+		*/
 
 		GameObject::Sptr wall1 = scene->CreateGameObject("Wall 1");
 		{
@@ -416,7 +418,7 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMaterial(wallMaterial);
 
 			RigidBody::Sptr physics = wall1->Add<RigidBody>();
-			physics->AddCollider(BoxCollider::Create());
+			physics->AddCollider(BoxCollider::Create({ 40.0f, 1.0f, 10.0f }));
 
 		}
 
@@ -432,7 +434,7 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMaterial(wallMaterial);
 
 			RigidBody::Sptr physics = wall2->Add<RigidBody>();
-			physics->AddCollider(BoxCollider::Create());
+			physics->AddCollider(BoxCollider::Create({ 30.0f, 1.0f, 10.0f }));
 
 		}
 
@@ -449,7 +451,7 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMaterial(wallMaterial);
 
 			RigidBody::Sptr physics = wall3->Add<RigidBody>();
-			physics->AddCollider(BoxCollider::Create());
+			physics->AddCollider(BoxCollider::Create({ 30.0f, 1.0f, 10.0f }));
 
 		}
 
@@ -466,7 +468,7 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMaterial(wallMaterial);
 
 			RigidBody::Sptr physics = wall4->Add<RigidBody>();
-			physics->AddCollider(BoxCollider::Create());
+			physics->AddCollider(BoxCollider::Create({ 15.0f, 1.0f, 10.0f }));
 		}
 
 		GameObject::Sptr wall5 = scene->CreateGameObject("Wall 5");
@@ -482,7 +484,7 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMaterial(wallMaterial);
 
 			RigidBody::Sptr physics = wall5->Add<RigidBody>();
-			physics->AddCollider(BoxCollider::Create());
+			physics->AddCollider(BoxCollider::Create({ 15.0f, 1.0f, 10.0f }));
 		}
 
 		GameObject::Sptr wall6 = scene->CreateGameObject("Wall 6");
@@ -498,7 +500,7 @@ void DefaultSceneLayer::_CreateScene()
 			renderer->SetMaterial(wallMaterial);
 
 			RigidBody::Sptr physics = wall6->Add<RigidBody>();
-			physics->AddCollider(BoxCollider::Create());
+			physics->AddCollider(BoxCollider::Create({ 21.0f, 1.0f, 10.0f }));
 		}
 
 		//GameObject::Sptr demoBase = scene->CreateGameObject("Demo Parent");
@@ -585,7 +587,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr multiTextureBall = scene->CreateGameObject("Multitextured Object");
 		{
 			// Set and rotation position in the scene 
-			multiTextureBall->SetPostion(glm::vec3(4.0f, -4.0f, 1.0f));
+			multiTextureBall->SetPostion(glm::vec3(-2.0f, 0.5f, 1.0f));
 
 			// Add a render component 
 			RenderComponent::Sptr renderer = multiTextureBall->Add<RenderComponent>();
@@ -595,10 +597,64 @@ void DefaultSceneLayer::_CreateScene()
 			Pellet::Sptr pell = multiTextureBall->Add<Pellet>();
 		}
 
+		GameObject::Sptr multiTextureBall2 = scene->CreateGameObject("Multitextured Object2");
+		{
+			// Set and rotation position in the scene 
+			multiTextureBall2->SetPostion(glm::vec3(6.0f, 0.0f, 1.0f));
+
+			// Add a render component 
+			RenderComponent::Sptr renderer = multiTextureBall2->Add<RenderComponent>();
+			renderer->SetMesh(sphere);
+			renderer->SetMaterial(pelletMaterial);
+
+			Pellet::Sptr pell = multiTextureBall2->Add<Pellet>();
+		}
+
+		GameObject::Sptr multiTextureBall3 = scene->CreateGameObject("Multitextured Object3");
+		{
+			// Set and rotation position in the scene 
+			multiTextureBall3->SetPostion(glm::vec3(21.0f, 0.1f, 1.0f));
+
+			// Add a render component 
+			RenderComponent::Sptr renderer = multiTextureBall3->Add<RenderComponent>();
+			renderer->SetMesh(sphere);
+			renderer->SetMaterial(pelletMaterial);
+
+			Pellet::Sptr pell = multiTextureBall3->Add<Pellet>();
+		}
+		
+		GameObject::Sptr multiTextureBall4 = scene->CreateGameObject("Multitextured Object4");
+		{
+			// Set and rotation position in the scene 
+			multiTextureBall4->SetPostion(glm::vec3(21.0f, -9.0f, 1.0f));
+
+			// Add a render component 
+			RenderComponent::Sptr renderer = multiTextureBall4->Add<RenderComponent>();
+			renderer->SetMesh(sphere);
+			renderer->SetMaterial(pelletMaterial);
+
+			Pellet::Sptr pell = multiTextureBall4->Add<Pellet>();
+		}
+		
+
+		GameObject::Sptr multiTextureBall5 = scene->CreateGameObject("Multitextured Object5");
+		{
+			// Set and rotation position in the scene 
+			multiTextureBall5->SetPostion(glm::vec3(21.0f, -20.0f, 1.0f));
+
+			// Add a render component 
+			RenderComponent::Sptr renderer = multiTextureBall5->Add<RenderComponent>();
+			renderer->SetMesh(sphere);
+			renderer->SetMaterial(pelletMaterial);
+
+			Pellet::Sptr pell = multiTextureBall5->Add<Pellet>();
+		}
+
 		GameObject::Sptr normalMapBall = scene->CreateGameObject("Normal Mapped Object");
 		{
 			// Set and rotation position in the scene 
 			normalMapBall->SetPostion(glm::vec3(6.0f, -4.0f, 1.0f));
+			normalMapBall->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
 
 			// Add a render component 
 			RenderComponent::Sptr renderer = normalMapBall->Add<RenderComponent>();
@@ -661,11 +717,13 @@ void DefaultSceneLayer::_CreateScene()
 		}
 		*/
 
+		/*
 		GameObject::Sptr particles = scene->CreateGameObject("Particles");
 		{
 			ParticleSystem::Sptr particleManager = particles->Add<ParticleSystem>();
 			particleManager->AddEmitter(glm::vec3(0.0f), glm::vec3(0.0f, -1.0f, 10.0f), 10.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 		}
+		*/
 
 		GuiBatcher::SetDefaultTexture(ResourceManager::CreateAsset<Texture2D>("textures/ui-sprite.png"));
 		GuiBatcher::SetDefaultBorderRadius(8);
