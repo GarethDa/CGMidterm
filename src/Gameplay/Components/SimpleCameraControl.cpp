@@ -26,7 +26,7 @@ SimpleCameraControl::~SimpleCameraControl() = default;
 void SimpleCameraControl::Update(float deltaTime)
 {
 	if (Application::Get().IsFocused) {
-		
+
 		if (InputEngine::GetMouseState(GLFW_MOUSE_BUTTON_LEFT) == ButtonState::Pressed) {
 			_prevMousePos = InputEngine::GetMousePos();
 			LOG_INFO("doot");
@@ -108,7 +108,7 @@ void SimpleCameraControl::Update(float deltaTime)
 
 		if (score <= 0)
 		{
-			GetGameObject()->SetPostion(glm::vec3(100, 100, 100));
+			GetGameObject()->SetPostion(glm::vec3(1000, 100, 100));
 			std::cout << "\n\n\nYOU WIN!!!!!!";
 		}
 	}

@@ -188,8 +188,8 @@ void DefaultSceneLayer::_CreateScene()
 		Scene::Sptr scene = std::make_shared<Scene>();
 
 		// Setting up our enviroment map
-		scene->SetSkyboxTexture(testCubemap);
-		scene->SetSkyboxShader(skyboxShader);
+		//scene->SetSkyboxTexture(testCubemap);
+		//scene->SetSkyboxShader(skyboxShader);
 		// Since the skybox I used was for Y-up, we need to rotate it 90 deg around the X-axis to convert it to z-up 
 		scene->SetSkyboxRotation(glm::rotate(MAT4_IDENTITY, glm::half_pi<float>(), glm::vec3(1.0f, 0.0f, 0.0f)));
 
@@ -228,7 +228,7 @@ void DefaultSceneLayer::_CreateScene()
 			pelletMaterial->Set("u_Material.Diffuse", pelletTexture);
 			pelletMaterial->Set("u_Material.Shininess", 0.1f);
 		}
-		
+
 		Material::Sptr boxMaterial = ResourceManager::CreateAsset<Material>(basicShader);
 		{
 			boxMaterial->Name = "Box";
@@ -347,17 +347,17 @@ void DefaultSceneLayer::_CreateScene()
 			camera->LookAt(glm::vec3(0.0f));
 
 			camera->Add<SimpleCameraControl>();
-			
-			
+
+
 			RenderComponent::Sptr renderer = camera->Add<RenderComponent>();
 			renderer->SetMesh(monkeyMesh);
 			//renderer->SetMaterial(monkeyMaterial);
-			
-			
+
+
 			RigidBody::Sptr physics = camera->Add<RigidBody>(RigidBodyType::Dynamic);
 			physics->AddCollider(SphereCollider::Create());
 			physics->SetMass(1.f);
-			
+
 
 			// This is now handled by scene itself!
 			//Camera::Sptr cam = camera->Add<Camera>();
@@ -622,7 +622,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			Pellet::Sptr pell = multiTextureBall3->Add<Pellet>();
 		}
-		
+
 		GameObject::Sptr multiTextureBall4 = scene->CreateGameObject("Multitextured Object4");
 		{
 			// Set and rotation position in the scene 
@@ -635,7 +635,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			Pellet::Sptr pell = multiTextureBall4->Add<Pellet>();
 		}
-		
+
 
 		GameObject::Sptr multiTextureBall5 = scene->CreateGameObject("Multitextured Object5");
 		{

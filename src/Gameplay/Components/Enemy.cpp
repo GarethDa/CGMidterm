@@ -29,7 +29,7 @@ void Enemy::Update(float deltaTime)
 	{
 		target = player->GetPosition();
 
-		if (glm::length(player->GetPosition() - GetGameObject()->GetPosition()) < 2.0f)
+		if (glm::length(player->GetPosition() - GetGameObject()->GetPosition()) < 2.5f)
 			player->SetPostion(playerStartingPos);
 
 		glm::vec3 lerpedCol = glm::mix(enemyLight->Color, glm::vec3(1, 0, 0), deltaTime * 2.0f);
@@ -77,7 +77,7 @@ void Enemy::Move(float deltaTime)
 	Avoidance(glm::vec3(-body->GetLinearVelocity().y, body->GetLinearVelocity().x, 0.0f), deltaTime);
 	Avoidance(glm::vec3(body->GetLinearVelocity().y, -body->GetLinearVelocity().x, 0.0f), deltaTime);
 
-	GetGameObject()->LookAt(GetGameObject()->GetPosition() + body->GetLinearVelocity() * -1.0f);
+	GetGameObject()->LookAt(GetGameObject()->GetPosition() + body->GetLinearVelocity());
 }
 
 void Enemy::Steering(float deltaTime)
