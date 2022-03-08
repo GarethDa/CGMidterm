@@ -105,6 +105,9 @@
     <ClInclude Include="src\Gameplay\Components\ComponentManager.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\Enemy.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\GUI\GuiPanel.h">
       <Filter>Gameplay\Components\GUI</Filter>
     </ClInclude>
@@ -124,6 +127,12 @@
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\ParticleSystem.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\Pellet.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\PlayerMovement.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h">
@@ -306,8 +315,6 @@
     <ClInclude Include="src\Utils\Windows\FileDialogs.h">
       <Filter>Utils\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\Enemy.h" />
-    <ClInclude Include="src\Gameplay\Components\Pellet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application\Application.cpp">
@@ -355,6 +362,9 @@
     <ClCompile Include="src\Gameplay\Components\Camera.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\Enemy.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gameplay\Components\GUI\GuiPanel.cpp">
       <Filter>Gameplay\Components\GUI</Filter>
     </ClCompile>
@@ -374,6 +384,12 @@
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\ParticleSystem.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\Pellet.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\PlayerMovement.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp">
@@ -518,7 +534,5 @@
       <Filter>Utils\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\entry_point.cpp" />
-    <ClCompile Include="src\Gameplay\Components\Enemy.cpp" />
-    <ClCompile Include="src\Gameplay\Components\Pellet.cpp" />
   </ItemGroup>
 </Project>

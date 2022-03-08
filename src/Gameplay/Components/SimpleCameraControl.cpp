@@ -29,6 +29,7 @@ void SimpleCameraControl::Update(float deltaTime)
 			_prevMousePos = InputEngine::GetMousePos();
 			LOG_INFO("doot");
 
+			
 			if (controlWithMouse)
 			{
 				glfwSetInputMode(Application::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -40,9 +41,11 @@ void SimpleCameraControl::Update(float deltaTime)
 				glfwSetInputMode(Application::Get().GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 				controlWithMouse = true;
 			}
+			
 		}
 
 		if (controlWithMouse) {
+		//if (InputEngine::IsMouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)){
 			glm::dvec2 currentMousePos = InputEngine::GetMousePos();
 			glm::dvec2 delta = currentMousePos - _prevMousePos;
 
@@ -98,7 +101,7 @@ void SimpleCameraControl::Update(float deltaTime)
 void SimpleCameraControl::RenderImGui()
 {
 	LABEL_LEFT(ImGui::DragFloat2, "Mouse Sensitivity", &_mouseSensitivity.x, 0.01f);
-	LABEL_LEFT(ImGui::DragFloat3, "Move Speed       ", &_moveSpeeds.x, 0.01f, 0.01f);
+	//LABEL_LEFT(ImGui::DragFloat3, "Move Speed       ", &_moveSpeed, 0.01f, 0.01f);
 	LABEL_LEFT(ImGui::DragFloat , "Shift Multiplier ", &_shiftMultipler, 0.01f, 1.0f);
 }
 
